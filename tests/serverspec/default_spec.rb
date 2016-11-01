@@ -1,9 +1,14 @@
 require 'spec_helper'
 require 'serverspec'
 
-package = 'dhclient'
+package = 'isc-dhcp-client'
 service = 'dhclient'
 config  = '/etc/dhclient.conf'
+
+case os[:family]
+when 'ubuntu'
+  config = '/etc/dhcp/dhclient.conf'
+end
 
 case os[:family]
 when 'freebsd', 'openbsd'
@@ -16,9 +21,7 @@ end
 describe file(config) do
   it { should be_file }
   case host_inventory['fqdn']
-  when 'default-openbsd-60-amd64'
-    its(:content) { should match(/^supersede\s+domain-name-servers\s+#{ Regexp.escape('8.8.8.8,8.8.4.4') };/) }
-  when 'default-freebsd-103-amd64'
+  when 'default-freebsd-103-amd64', 'default-ubuntu-1404-amd64'
     its(:content) { should match(/^supersede\s+domain-name-servers\s+#{ Regexp.escape('8.8.4.4,8.8.8.8') };/) }
   else
     its(:content) { should match(/^supersede\s+domain-name-servers\s+#{ Regexp.escape('8.8.8.8,8.8.4.4') };/) }
@@ -33,5 +36,18 @@ when 'freebsd'
 when 'openbsd'
   describe process('dhclient') do
     it { pending "serverspec does not support OpenBSD's ps"; should be_running }
+  end
+when 'ubuntu'
+  describe process('dhclient') do
+    it { should be_running }
+  end
+end
+
+describe file('/etc/resolv.conf') do
+  case host_inventory['fqdn']
+  when 'default-freebsd-103-amd64', 'default-ubuntu-1404-amd64'
+    its(:content) { should match(/nameserver\s+#{ Regexp.escape('8.8.4.4') }\nnameserver\s+#{ Regexp.escape('8.8.8.8') }/) }
+  else
+    its(:content) { should match(/nameserver\s+#{ Regexp.escape('8.8.8.8') }\nnameserver\s+#{ Regexp.escape('8.8.4.4') }/) }
   end
 end
