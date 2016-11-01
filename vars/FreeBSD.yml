@@ -1,2 +1,3 @@
 ---
+__dhclient_config_file: /etc/dhclient.conf
 __dhclient_service: dhclient
