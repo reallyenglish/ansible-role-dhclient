@@ -1,0 +1,12 @@
+---
+
+- name: Create dhclient.conf
+  template:
+    src: dhclient.conf.j2
+    dest: "{{ dhclient_config_file }}"
+  register: register_dhclient_conf
+
+- name: Restart network
+  # XXX cannot find a proper way to restart dhclient on CentOS
+  shell: "dhclient -x && dhclient {{ dhclient_interface }}"
+  when: register_dhclient_conf.changed

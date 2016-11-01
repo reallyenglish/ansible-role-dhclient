@@ -35,6 +35,13 @@ None
 | \_\_dhclient\_config\_file | /etc/dhclient.conf |
 | \_\_dhclient\_service | dhclient |
 
+## RedHat
+
+| Variable | Default |
+|----------|---------|
+| \_\_dhclient\_config\_file | /etc/dhcp/dhclient.conf |
+| \_\_dhclient\_service | "" |
+
 Created by [yaml2readme.rb](https://gist.github.com/trombik/b2df709657c08d845b1d3b3916e592d3)
 
 # Dependencies
