@@ -1,0 +1,6 @@
+---
+
+- name: Restart dhclient
+  service:
+    name: dhclient
+    state: restarted

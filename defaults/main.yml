@@ -1,0 +1,8 @@
+dhclient_user: dhclient
+dhclient_group: dhclient
+dhclient_log_dir: /var/log/dhclient
+dhclient_db_dir: "{{ __dhclient_db_dir }}"
+dhclient_service: dhclient
+dhclient_conf_dir: "{{ __dhclient_conf_dir }}"
+dhclient_conf_file: "{{ __dhclient_conf_dir }}/dhclient.conf"
+dhclient_flags: ""

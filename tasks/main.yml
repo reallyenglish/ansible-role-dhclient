@@ -1,0 +1,36 @@
+---
+# tasks file for ansible-role-dhclient
+
+- include_vars: "{{ ansible_os_family }}.yml"
+
+- include: "install-{{ ansible_os_family }}.yml"
+
+- name: Create log directory
+  file:
+    path: "{{ dhclient_log_dir }}"
+    mode: 0755
+    owner: "{{ dhclient_user }}"
+    group: "{{ dhclient_group }}"
+    state: directory
+  notify: Restart dhclient
+
+- name: Create db directory
+  file:
+    path: "{{ dhclient_db_dir }}"
+    mode: 0755
+    owner: "{{ dhclient_user }}"
+    group: "{{ dhclient_group }}"
+    state: directory
+  notify: Restart dhclient
+
+- name: Create dhclient.conf
+  template:
+    src: dhclient.conf.j2
+    dest: "{{ dhclient_conf_file }}"
+  notify: Restart dhclient
+
+- name: Start dhclient
+  service:
+    name: "{{ dhclient_service }}"
+    enabled: true
+    state: started
