@@ -5,6 +5,6 @@
     name_servers:
       - 8.8.8.8
       - 8.8.4.4
-    dhclient_interface: "{% if ansible_os_family == 'FreeBSD' %}em0{% elif ansible_os_family == 'Debian' %}eth0{% elif ansible_os_family == 'OpenBSD' %}em0{% endif %}"
+    dhclient_interface: "{% if ansible_os_family == 'FreeBSD' %}em0{% elif ansible_os_family == 'Debian' or ansible_os_family == 'RedHat' %}eth0{% elif ansible_os_family == 'OpenBSD' %}em0{% endif %}"
     dhclient_config:
       - "supersede domain-name-servers {{ name_servers | predictable_shuffle(ansible_fqdn) | join(',') }};"
