@@ -5,15 +5,4 @@
 
 - include: "install-{{ ansible_os_family }}.yml"
 
-- name: Create dhclient.conf
-  template:
-    src: dhclient.conf.j2
-    dest: "{{ dhclient_config_file }}"
-  notify: Restart dhclient
-
-- name: Start dhclient
-  service:
-    name: "{{ dhclient_service }}"
-    arguments: "{{ dhclient_interface }}"
-    state: started
-  when: "{{ ansible_os_family == 'FreeBSD' }}"
+- include: "configure-{{ ansible_os_family }}.yml"
