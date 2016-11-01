@@ -8,9 +8,20 @@ None
 
 # Role Variables
 
-| variable | description | default |
+| Variable | Description | Default |
 |----------|-------------|---------|
+| dhclient\_config\_file | path to `dhclient.conf(5)` | /etc/dhclient.conf |
+| dhclient\_config | array of configurations | [] |
+| dhclient\_service | service name | {{ \_\_dhclient\_service }} |
+| dhclient\_interface | the interface on which `dhclient` is enabled | "" |
 
+## FreeBSD
+
+| Variable | Default |
+|----------|---------|
+| \_\_dhclient\_service | dhclient |
+
+Created by [yaml2readme.rb](https://gist.github.com/trombik/b2df709657c08d845b1d3b3916e592d3)
 
 # Dependencies
 
@@ -19,6 +30,16 @@ None
 # Example Playbook
 
 ```yaml
+- hosts: localhost
+  roles:
+    - ansible-role-dhclient
+  vars:
+    name_servers:
+      - 8.8.8.8
+      - 8.8.4.4
+    dhclient_interface: "{% if ansible_os_family == 'FreeBSD' %}em0{% endif %}"
+    dhclient_config:
+      - "supersede domain-name-servers {{ name_servers | predictable_shuffle(ansible_fqdn) | join(',') }};"
 ```
 
 # License

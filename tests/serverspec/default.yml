@@ -2,4 +2,9 @@
   roles:
     - ansible-role-dhclient
   vars:
-    dhclient_config: ""
+    name_servers:
+      - 8.8.8.8
+      - 8.8.4.4
+    dhclient_interface: "{% if ansible_os_family == 'FreeBSD' %}em0{% endif %}"
+    dhclient_config:
+      - "supersede domain-name-servers {{ name_servers | predictable_shuffle(ansible_fqdn) | join(',') }};"

@@ -1,6 +1,1 @@
 ---
-
-- name: Install dhclient
-  pkgng:
-    name: dhclient
-    state: present
