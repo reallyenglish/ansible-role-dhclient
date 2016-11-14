@@ -1,5 +1,6 @@
 require 'spec_helper'
 require 'serverspec'
+require 'process_openbsd'
 
 package = 'isc-dhcp-client'
 service = 'dhclient'
@@ -38,7 +39,7 @@ when 'freebsd'
   end
 when 'openbsd'
   describe process('dhclient') do
-    it { pending "serverspec does not support OpenBSD's ps"; should be_running }
+    it { should be_running }
   end
 when 'ubuntu'
   describe process('dhclient') do
