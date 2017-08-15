@@ -48,7 +48,7 @@ end
 
 describe file("/etc/resolv.conf") do
   case host_inventory["fqdn"]
-  when "default-freebsd-103-amd64", "default-ubuntu-1404-amd64", "default-centos-72-x86-64"
+  when "default-freebsd-103-amd64", "default-ubuntu-1404-amd64"
     its(:content) { should match(/nameserver\s+#{ Regexp.escape('8.8.4.4') }\nnameserver\s+#{ Regexp.escape('8.8.8.8') }/) }
   else
     its(:content) { should match(/nameserver\s+#{ Regexp.escape('8.8.8.8') }\nnameserver\s+#{ Regexp.escape('8.8.4.4') }/) }
