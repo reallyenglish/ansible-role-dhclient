@@ -5,7 +5,6 @@ ENV["VAGRANT_CWD"] = File.dirname(__FILE__)
 ENV["LANG"] = "C"
 
 if ENV["JENKINS_HOME"]
-  # rubocop:disable Metrics/LineLength
   #
   # XXX "bundle exec vagrant" fails to load.
   # https://github.com/bundler/bundler/issues/4602
